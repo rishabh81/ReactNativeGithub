@@ -6,6 +6,7 @@ import Notifications from './notifications/RepoCount';
 import Repo from '../components/EachRepo';
 import BaseStyle from '../constants/baseStyle';
 import {getRepositories} from '../redux/actionCreators/repositories';
+
 class Repositories extends React.Component {
     static navigationOptions = (props)=>{
         return {

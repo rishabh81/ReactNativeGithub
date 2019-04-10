@@ -11,8 +11,24 @@ import {connect} from 'react-redux';
 import BaseStyle from '../constants/baseStyle'
 import PopularRepo from '../components/PopularRepo'
 
+const calculateDegreeFromLables = (degree, lables)=>{
+    return 180/lables.length;
+}
 class Overview extends React.Component {
     render() {
+        const minValue = 0,
+            maxValue = 100,
+            labels = [
+                {name:'lab1', color:'violet'},
+                {name:'lab2', color:'indigo'},
+                {name:'lab3', color:'blue'},
+                {name:'lab4', color:'green'},
+                {name:'lab5', color:'yellow'},
+                {name:'lab6', color:'orange'},
+                // {name:'lab7', color:'red'},
+            ],
+            degree = 180,
+            perLevelDegree = calculateDegreeFromLables(degree, labels);
         return (
             <View style={styles.container}>
                 <ScrollView>
@@ -39,11 +55,49 @@ class Overview extends React.Component {
 
                 </View>
                 <View style={[{flex:2}, styles.section]}>
-                    <Text style={styles.titleText}>Popular Repositories</Text>
-                    <View style={styles.repoContainer}>
+                   {/*{ <Text style={styles.titleText}>Popular Repositories</Text>*/}
+                    {/*<View style={styles.repoContainer}>*/}
+                        {/*{*/}
+                            {/*(this.props.overview.popularRepos).map((each,index) => <PopularRepo key={index} title={each.title}/>)*/}
+                        {/*}*/}
+                    {/*</View>}*/}
+                    <View style={{
+                        overflow:'hidden',
+                        justifyContent: 'flex-end',
+                        alignItems: 'center',
+                        width: BaseStyle.DEVICE_WIDTH - 20,
+                        height: BaseStyle.DEVICE_WIDTH / 2 - 10,
+                        borderTopLeftRadius: BaseStyle.DEVICE_WIDTH / 2 - 10,
+                        borderTopRightRadius: BaseStyle.DEVICE_WIDTH / 2 - 10,
+                        backgroundColor: '#e6e6e6',
+                    }}>
                         {
-                            (this.props.overview.popularRepos).map((each,index) => <PopularRepo key={index} title={each.title}/>)
+                            labels.map((level, index) => {
+                               const circleDegree = 90 + (index * perLevelDegree);
+                               return <View key={level.name} style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: BaseStyle.DEVICE_WIDTH / 2,
+                                    height: BaseStyle.DEVICE_WIDTH,
+                                    backgroundColor: level.color,
+                                    transform: [
+                                        {translateX: BaseStyle.DEVICE_WIDTH / 4 -5 },
+                                        {rotate: `${circleDegree}deg`},
+                                        {translateX: BaseStyle.DEVICE_WIDTH / 4 * -1 -5 },
+                                    ]
+                                }}/>
+                        })
                         }
+                     <View style={{
+                         backgroundColor: '#ffffff',
+                         justifyContent: 'flex-end',
+                         alignItems: 'center',
+                         width: BaseStyle.DEVICE_WIDTH* 0.6,
+                         height: (BaseStyle.DEVICE_WIDTH/2) * 0.6,
+                         borderTopLeftRadius: BaseStyle.DEVICE_WIDTH / 2 - 10,
+                         borderTopRightRadius: BaseStyle.DEVICE_WIDTH / 2 - 10,
+                     }}/>
                     </View>
                 </View>
                 </ScrollView>
